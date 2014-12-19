@@ -34,7 +34,7 @@ data[,80] <- sapply(data[,80], function(x) gsub(3, "WALKING_DOWNSTAIRS", x))
 data[,80] <- sapply(data[,80], function(x) gsub(4, "SITTING", x))
 data[,80] <- sapply(data[,80], function(x) gsub(5, "STANDING", x))
 data[,80] <- sapply(data[,80], function(x) gsub(6, "LAYING", x))
-dataMelt <- melt(data, id=c("Activity", "Subject"), measure.vars = 1:79) ##reshape data into a more suitable form (long, tidy data)
+dataMelt <- melt(data, id=c("Subject", "Activity"), measure.vars = 1:79) ##reshape data into a more suitable form (long, tidy data)
 names(dataMelt)[c(1:4)] <- c("subject", "activity", "feature", "average") ##Appropriately labels the data set with descriptive variable names##install and run package "dplyr"
 dataGroup <- group_by(dataMelt, subject, activity, feature) ##group subject, activity and features columns together to perform mean operation in next step
 dataAvg <- summarise_each(dataGroup, funs(mean))
