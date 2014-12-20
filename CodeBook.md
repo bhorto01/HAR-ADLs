@@ -1,32 +1,29 @@
-Background on the data being used can be found in ReadMe.md in this repository. This CodeBook contains the descriptions of the data, variables and summarizes the work performed to clean up the data from the original study into a tidy form for future analysis. 
+####Please refer to the ReadMe.md in this repository prior to proceeding with this CodeBook. There you will find resources which further explain the background of the project and where the data comes from.
 
-The background of the data can be found here: http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
-And the data can be downloaded here: 
-https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
-The downloadable file above also includes additional background on the data. This will also be summarized in the read me.
+code book describing the variables.
+##Tidy Data
+Running the run_analysis.R code results in a tidy data set. The goal of this tidy data set was to clean up the original data (see ReadMe.md for original data info) into a tidy form for future analysis. 
 
-Using the original data, download and unzip the following files to your working directory:
-"activity_labels.txt"
-"features.txt"
-And from of the Train and Test folders use the subject_, x_, and y_ files (ending in train.txt or test.txt)
+I chose to approach the tidy data using a long (vs. wide) tidy data set because I felt it 1) provided an easier view in the R console and 2) allows the most flexibility for future analysis.
 
-run_analysis.R performs the following steps:
-- Merge the training and test sets to create one data set 
-- Extracts only the measurements on the mean and standard deviation for each measurement: 
-- Uses descriptive activity names to name the activities in the data set
-- Appropriately labels the data set with descriptive variable names. 
-- From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
-Specifics of how/when these steps were carried out are noted in the run_analysis.txt file in this repository.
+##Variables
+The result of the run_analysis.R was a tidy data form with four columns (variable): 'subject', 'activity', 'feature' and 'average'
 
-Running run_analysis.R results in a long-tidy data.frame of dimensions (14,220x4). I used the long data form for this data set because it was easier to view in the R console and since "The goal is to prepare tidy data that can be used for later analysis", I felt the long version provided better options to carry out later analysis.
+- subject - this variable is a unique identifier, 1-30, given to the 30 participants of the original study
 
-The 4 column variables are: subject, activity, feature, average:
+- activity - this variable includes one of the six possible activities a subject performed for the study: WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING
 
-subject: each individual participating in the study was assigned a unique identifying number 1-30
+- feature - a feature was originally one of 561 "raw signals" (from "features.txt" in origianl data) as explained in the "feature_info.txt" in the original dataset. As mentioned in the ReadMe.md in this repository, the run_analysis.R instructions called for extracting only those feature measurements that were measurements of mean or standard deviation.
+  - It should be noted that certain mean measurements existed within an angle measurement and for the purposes of run_analysis.R these were excluded from the resulting tidy data set.
+  - It should also be noted that within the features data there were measurements that only differed by an X,Y, or Z ending. As expained in the "features_info.txt" file in the original data, X,Y,Z represent "3-axial signals in the X, Y and Z directions". For the purposes of run_analysis.R, I left the X,Y,Z direction measurements as seperate levels within the feature variable.
+  - As a result my feature column ended up with 79 unique mean and std measurement features (down from the original data of 561 feature measurements). The entire list of 79 measurements is provided at the bottom of this document
 
-activity: each subject was measured performing one of six activities 1 - WALKING, 2 - WALKING_UPSTAIRS, 3 - WALKING_DOWNSTAIRS, 4 - SITTING, 5 - STANDING, 6 -
+- average - this variable is an average calculation computed from the original data for each subject, activity, feature grouping. For example, subject #1, had x "tBodyAcc.meanX" measurements taken performing the LAYING activity. The value in the corresponding average column shows the average of the x measurements of subject 1, performing the LAYING activity.
 
-feature: each activity was measured by one of these features. The best descriptions of these features are found in the original data set downloadable at the top of this document in the "features_info.txt" and also summarized in the Read.Me in this repository. It should be noted that the original data contained 561 features. For this project, the features were melted into a single column and reduced to 79 levels containing only those features which included mean and standard deviation (std) measurements. There were 7 levels containing the word Mean that were excluded because they were not appropriate feature types
+##Results
+As a result, the run_analysis.R code creates a long, tidy data form of dimensions 14,220x4. The rows can be explained by the computed averages of 30 subjects, performing 6 activities, measured in 79 feature measurements (180x6x79 = 14,220).
+
+####Features
 "tBodyAcc.meanX"
 "tBodyAcc.meanY"
 "tBodyAcc.meanZ"
@@ -107,4 +104,3 @@ feature: each activity was measured by one of these features. The best descripti
 "fBodyGyroMag.std"
 "fBodyGyroJerkMag.std". 
 
-averages: this value shows the average calculated from the original data of the specific feature measurement, for a specific subject, performing a specific activity. In other words, with 30 subjects, performing 6 activities, calculating the averages for 79 different feature measurements, you end up with your 14,220 rows (30 subj x 6 activities x 79 feat meas = 14,220)
