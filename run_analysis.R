@@ -11,10 +11,10 @@ xytest <- cbind(xtest, ytest) ##combine test files into a single data frame
 features <- read.table("./CourseProject/UCI HAR Dataset/features.txt") ##read features file into R, this contains column headers for x_test data (aka variable names)
 
 ##improves data name quality in features column
-features[,2] = gsub("-mean", ".mean", features[,2])  
-features[,2] = gsub("-std", ".std", features[,2]) 
-features[,2] = gsub("[-()]", "", features[,2]) 
-features[,2] = gsub("BodyBody", "Body", features[,2]) 
+features[,2] <- gsub("-mean", ".mean", features[,2])  
+features[,2] <- gsub("-std", ".std", features[,2]) 
+features[,2] <- gsub("[-()]", "", features[,2]) 
+features[,2] <- gsub("BodyBody", "Body", features[,2]) 
 
 FeatureVars <- features$V2 ##this creates vector of variable names
 FeatureVars <- sapply(FeatureVars, as.character) ##this sets class of variable names to characters
@@ -23,6 +23,7 @@ names(xytest)[562] <- "Activity" ##changes last column header Activity
 subj_test <- read.table("./CourseProject/UCI HAR Dataset/test/subject_test.txt") ##reads in subject values for test data set
 xytest <- cbind(xytest, subj_test) ##binds together previous test data to include the subject column
 names(xytest)[563] <- "Subject"  ##names the column just added
+
 xtrain <- read.table("./CourseProject/UCI HAR Dataset/train/X_train.txt") ##reads in the train features data
 ytrain <- read.table("./CourseProject/UCI HAR Dataset/train/y_train.txt") ##reads in the train activity data
 xytrain <- cbind(xtrain, ytrain) ##combine train files into a single data frame
@@ -43,7 +44,8 @@ data[,80] <- sapply(data[,80], function(x) gsub(3, "WALKING_DOWNSTAIRS", x))
 data[,80] <- sapply(data[,80], function(x) gsub(4, "SITTING", x))
 data[,80] <- sapply(data[,80], function(x) gsub(5, "STANDING", x))
 data[,80] <- sapply(data[,80], function(x) gsub(6, "LAYING", x))
-
+##install and run reshape packge (for melt function)
+##install and run dplyr package (for summarise_each, group_by, funs)
 dataMelt <- melt(data, id=c("Subject", "Activity"), measure.vars = 1:79) ##reshape data into a more suitable form (long, tidy data)
 names(dataMelt)[c(1:4)] <- c("subject", "activity", "feature", "average") ##Appropriately labels the data set with descriptive variable names##install and run package "dplyr"
 dataGroup <- group_by(dataMelt, subject, activity, feature) ##group subject, activity and features columns together to perform mean operation in next step
