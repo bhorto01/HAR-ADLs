@@ -3,9 +3,9 @@
   
 ##Original Data
   It takes already existing data from this website: 
-  - http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
-Original data is downable from here:
-  - https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
+    - http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+  - Original data is downable from here:
+    - https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
 
 ##Goal
 The goal of the script is to prepare tidy data that can be used for later analysis.
